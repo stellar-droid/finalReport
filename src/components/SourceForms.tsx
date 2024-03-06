@@ -32,7 +32,7 @@
                             which allow a singular Report IJI to visualize connected data stemming from multiple Form Sources.</p>
             
                     
-        <Form.Label htmlFor="basic-url">
+        <Form.Label htmlFor="basic-url" style={{display:'flex'}}>
           Choose from the Forms within this Project:
           <OverlayTrigger
             placement="right"
@@ -43,9 +43,9 @@
           </OverlayTrigger>
           <span style={{ color: 'red' }}>*</span> 
         </Form.Label>
-        <Form.Control required id="basic-url" aria-describedby="basic-addon3" /> 
+        <Form.Control required id="basic-url" aria-describedby="basic-addon3" className='mb-3'/> 
 
-        <Form.Label htmlFor="basic-url">
+        <Form.Label htmlFor="basic-url" style={{display:'flex'}}>
           Form Connections :
           <OverlayTrigger
             placement="right"
@@ -57,7 +57,7 @@
         </Form.Label>
       
 
-      <Container className='border mb-2'>
+      <Container className='border mb-2 innerform'>
         
       
         <div style={{display:'flex'}}>

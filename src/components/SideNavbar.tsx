@@ -71,7 +71,7 @@ function SideNavbar() {
   return (
     <div className="App">
     <h1 className="text-center">Basic Settings</h1>
-    <Container style={{margin:'0',marginTop:'50px'}} className='border mb-2'>
+    <Container style={{}} className='border mb-2 navbar' >
       <Tab.Container id="left-tabs-example" activeKey={activeTab || "basicSettings"} onSelect={(key: string | null) => setActiveTab(key)}>
         <Row>
           <Col sm={3}>
@@ -105,7 +105,10 @@ function SideNavbar() {
           <Col sm={9}>
             <Tab.Content className='tabcontent'>
               <Tab.Pane eventKey="basicSettings" className="tabContent">                  
-                <SourceForms/>
+                {/* <SourceForms/> */}
+                <h1>
+                    Basic Settings
+                </h1>
               </Tab.Pane>
 
               <Tab.Pane eventKey="sourceForms" className="tabContent">

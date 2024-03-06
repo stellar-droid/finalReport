@@ -49,5 +49,14 @@
 .sourceforms{
   margin-top: 5px;
   border-radius: 5px;
-  background-color: #808588;
+  background-color: #b4b4b4;
+}
+
+.innerform{
+  border-radius: 5px;
+}
+
+.navbar{
+  margin-left: 50px;
+  margin-top: 50px;
 }
