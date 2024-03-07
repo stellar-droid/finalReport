@@ -32,31 +32,77 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
-
-.footer > :nth-child(1){
-      margin-right: 5px;
-}
-
-.footer > :nth-child(2){
+.footer > :nth-child(1) {
   margin-right: 5px;
 }
 
-.sourceforms{
+.footer > :nth-child(2) {
+  margin-right: 5px;
+}
+
+.sourceforms {
   margin-top: 5px;
   border-radius: 5px;
   background-color: #b4b4b4;
 }
 
-.innerform{
+.innerform {
   border-radius: 5px;
 }
 
-.navbar{
+.navbar {
   margin-left: 50px;
   margin-top: 50px;
+}
+
+.baseformlabel1 {
+  position: relative;
+  left: 12px;
+  display: flex;
+  font-family: "Times New Roman";
+}
+
+.baseformlabel2 {
+  position: relative;
+  left: 12px;
+  display: flex;
+  font-family: "Times New Roman";
+}
+
+.baseformlabel3 {
+  position: relative;
+  left: 12px;
+  display: flex;
+  font-family: "Times New Roman";
+}
+
+.joiningformlabel1 {
+  position: relative;
+  left: 12px;
+  display: flex;
+  font-family: "Times New Roman";
+}
+.joiningformlabel2 {
+  position: relative;
+  left: 12px;
+  display: flex;
+  font-family: "Times New Roman";
+}
+.joiningformlabel3 {
+  position: relative;
+  left: 12px;
+  display: flex;
+  font-family: "Times New Roman";
+}
+
+
+.custom-nav-link.active {
+  background-color: #A1887F; /* Set your desired background color */
+  color: #fff; /* Set your desired text color */
 }

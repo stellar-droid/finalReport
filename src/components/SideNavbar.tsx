@@ -75,30 +75,30 @@ function SideNavbar() {
       <Tab.Container id="left-tabs-example" activeKey={activeTab || "basicSettings"} onSelect={(key: string | null) => setActiveTab(key)}>
         <Row>
           <Col sm={3}>
-            <Nav variant="pills" className="flex-column sticky-top">
+            <Nav variant="" className="flex-column sticky-top">
               <Nav.Item>
-                <Nav.Link eventKey="basicSettings" className="first-tab">Basic Settings</Nav.Link>
+                <Nav.Link eventKey="basicSettings" className="first-tab custom-nav-link">Basic Settings</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="sourceForms" className="tab">Source Forms</Nav.Link>
+                <Nav.Link eventKey="sourceForms" className="tab custom-nav-link">Source Forms</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="calculatedForms" className="tab">Calculated Columns</Nav.Link>
+                <Nav.Link eventKey="calculatedForms" className="tab custom-nav-link">Calculated Columns</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="aggregation" className="tab">Aggregation</Nav.Link>
+                <Nav.Link eventKey="aggregation" className="tab custom-nav-link">Aggregation</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="columns" className="tab">Columns</Nav.Link>
+                <Nav.Link eventKey="columns" className="tab custom-nav-link">Columns</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="controlPanel" className="tab">Control Panel</Nav.Link>
+                <Nav.Link eventKey="controlPanel" className="tab custom-nav-link">Control Panel</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="filters" className="tab">Filters</Nav.Link>
+                <Nav.Link eventKey="filters" className="tab custom-nav-link">Filters</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="controlsActions" className="tab">Contols Actions</Nav.Link>
+                <Nav.Link eventKey="controlsActions" className="tab custom-nav-link">Contols Actions</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
@@ -145,9 +145,9 @@ function SideNavbar() {
         </Row>
       </Tab.Container>
       <div className="footer" style={{display:'flex',left:'0'}}>
-        <Button variant="dark" href="#" className="btn" >Cancel</Button>
-        <Button onClick={handlePrevious} className="btn" hidden={activeTab === "basicSettings"}>Previous</Button>        
-        <Button onClick={handleNext} className="btn" hidden={activeTab === "controlsActions"}>Next</Button>
+        <Button variant="dark" href="#" className="btn " >Cancel</Button>
+        <Button onClick={handlePrevious} className="btn btn-success" hidden={activeTab === "basicSettings"}>Previous</Button>        
+        <Button onClick={handleNext} className="btn btn-danger" hidden={activeTab === "controlsActions"}>Next</Button>
         {activeTab === "controlsActions" && (
           <Button type="submit" className="btn">Submit Form</Button>
         )}
