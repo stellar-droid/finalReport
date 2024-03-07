@@ -6,12 +6,13 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 const SourceForms = () => {
   const [isFormSubmitted, setFormSubmitted] = React.useState(false);
-  const renderTooltip = (props: any) => (
+  
+
+  const customRenderTooltip = (content:string) => (props:any) => (
     <Tooltip id="button-tooltip" {...props}>
-      Simple tooltip
+      {content}
     </Tooltip>
   );
-
 
   const handleSubmit = (event: any) => {
     // Your form submission logic goes here
@@ -37,7 +38,7 @@ const SourceForms = () => {
           <OverlayTrigger
             placement="right"
             delay={{ show: 250, hide: 400 }}
-            overlay={renderTooltip}
+            overlay={customRenderTooltip('Choose Forms')}
           >
             <i className="bi bi-patch-question"></i>
           </OverlayTrigger>
@@ -50,7 +51,7 @@ const SourceForms = () => {
           <OverlayTrigger
             placement="right"
             delay={{ show: 250, hide: 400 }}
-            overlay={renderTooltip}
+            overlay={customRenderTooltip('Choose Forms Connections')}
           >
             <i className="bi bi-patch-question"></i>
           </OverlayTrigger>
@@ -80,7 +81,7 @@ const SourceForms = () => {
                 <OverlayTrigger
                   placement="right"
                   delay={{ show: 250, hide: 400 }}
-                  overlay={renderTooltip}
+                  overlay={customRenderTooltip('Choose Base Forms')}
                 >
 
                   <i className="bi bi-patch-question"></i>

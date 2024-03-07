@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'font-awesome/css/font-awesome.min.css'; 
 import SourceForms from './SourceForms';
 import '../App.css'
+import BasicSettings from './BasicSettings';
+import CalculatedColumns from './CalculatedColumns';
 function SideNavbar() {
   const [activeTab, setActiveTab] = React.useState<string | null>("basicSettings");
   const [reportTitle, setReportTitle] = React.useState<string | undefined>("");
@@ -105,10 +107,7 @@ function SideNavbar() {
           <Col sm={9}>
             <Tab.Content className='tabcontent'>
               <Tab.Pane eventKey="basicSettings" className="tabContent">                  
-                {/* <SourceForms/> */}
-                <h1>
-                    Basic Settings
-                </h1>
+                <BasicSettings />
               </Tab.Pane>
 
               <Tab.Pane eventKey="sourceForms" className="tabContent">
@@ -117,7 +116,7 @@ function SideNavbar() {
               </Tab.Pane>
 
               <Tab.Pane eventKey="calculatedForms" className="tabContent">                  
-              <SourceForms/>
+              <CalculatedColumns/>
                 
               </Tab.Pane>
 
