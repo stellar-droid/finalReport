@@ -9,6 +9,7 @@ import SourceForms from './SourceForms';
 import '../App.css'
 import BasicSettings from './BasicSettings';
 import CalculatedColumns from './CalculatedColumns';
+import Aggregation from './Aggregation';
 function SideNavbar() {
   const [activeTab, setActiveTab] = React.useState<string | null>("basicSettings");
   const [reportTitle, setReportTitle] = React.useState<string | undefined>("");
@@ -71,11 +72,11 @@ function SideNavbar() {
 
 
   return (
-    <div className="App">
-    <h1 className="text-center">Basic Settings</h1>
+    <div className="App" style={{fontFamily:'TimesNewRoman'}}>
+    <h1 className="text-center">Reports Module</h1>
     <Container style={{}} className='border mb-2 navbar' >
       <Tab.Container id="left-tabs-example" activeKey={activeTab || "basicSettings"} onSelect={(key: string | null) => setActiveTab(key)}>
-        <Row>
+        <Row className='w-100'>
           <Col sm={3}>
             <Nav variant="" className="flex-column sticky-top">
               <Nav.Item>
@@ -103,8 +104,17 @@ function SideNavbar() {
                 <Nav.Link eventKey="controlsActions" className="tab custom-nav-link">Contols Actions</Nav.Link>
               </Nav.Item>
             </Nav>
+            <div className="footer sticky-bottom" style={{display:'flex',left:'0'}}>
+        <Button variant="dark" href="#" className="btn " >Cancel</Button>
+        <Button onClick={handlePrevious} className="btn btn-success" hidden={activeTab === "basicSettings"}>Previous</Button>        
+        <Button onClick={handleNext} className="btn btn-danger" hidden={activeTab === "controlsActions"}>Next</Button>
+        {activeTab === "controlsActions" && (
+          <Button type="submit" className="btn">Submit Form</Button>
+        )}
+      </div>
           </Col>
           <Col sm={9}>
+            <div style={{background: "red", width: "100%"}}></div>
             <Tab.Content className='tabcontent'>
               <Tab.Pane eventKey="basicSettings" className="tabContent">                  
                 <BasicSettings />
@@ -121,7 +131,7 @@ function SideNavbar() {
               </Tab.Pane>
 
               <Tab.Pane eventKey="aggregation" className="tabContent">
-              <SourceForms/>
+              <Aggregation/>
               </Tab.Pane>
 
               <Tab.Pane eventKey="columns" className="tabContent">
@@ -143,14 +153,7 @@ function SideNavbar() {
           </Col>
         </Row>
       </Tab.Container>
-      <div className="footer" style={{display:'flex',left:'0'}}>
-        <Button variant="dark" href="#" className="btn " >Cancel</Button>
-        <Button onClick={handlePrevious} className="btn btn-success" hidden={activeTab === "basicSettings"}>Previous</Button>        
-        <Button onClick={handleNext} className="btn btn-danger" hidden={activeTab === "controlsActions"}>Next</Button>
-        {activeTab === "controlsActions" && (
-          <Button type="submit" className="btn">Submit Form</Button>
-        )}
-      </div>
+      
     </Container>      
   </div>
   );
