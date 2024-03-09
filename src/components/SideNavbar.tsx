@@ -10,6 +10,7 @@ import '../App.css'
 import BasicSettings from './BasicSettings';
 import CalculatedColumns from './CalculatedColumns';
 import Aggregation from './Aggregation';
+import Columns from './Columns';
 function SideNavbar() {
   const [activeTab, setActiveTab] = React.useState<string | null>("basicSettings");
   const [reportTitle, setReportTitle] = React.useState<string | undefined>("");
@@ -94,7 +95,7 @@ function SideNavbar() {
               <Nav.Item>
                 <Nav.Link eventKey="columns" className="tab custom-nav-link">Columns</Nav.Link>
               </Nav.Item>
-              <Nav.Item>
+              {/* <Nav.Item>
                 <Nav.Link eventKey="controlPanel" className="tab custom-nav-link">Control Panel</Nav.Link>
               </Nav.Item>
               <Nav.Item>
@@ -102,7 +103,7 @@ function SideNavbar() {
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="controlsActions" className="tab custom-nav-link">Contols Actions</Nav.Link>
-              </Nav.Item>
+              </Nav.Item> */}
             </Nav>
             <div className="footer sticky-bottom" style={{display:'flex',left:'0'}}>
         <Button variant="dark" href="#" className="btn " >Cancel</Button>
@@ -135,10 +136,10 @@ function SideNavbar() {
               </Tab.Pane>
 
               <Tab.Pane eventKey="columns" className="tabContent">
-              <SourceForms/>
+              <Columns/>
               </Tab.Pane>
 
-              <Tab.Pane eventKey="controlPanel" className="tabContent">
+              {/* <Tab.Pane eventKey="controlPanel" className="tabContent">
               <SourceForms/>
               </Tab.Pane>  
 
@@ -148,7 +149,7 @@ function SideNavbar() {
 
               <Tab.Pane eventKey="controlsActions" className="tabContent">
               <SourceForms/>
-                                </Tab.Pane>              
+                                </Tab.Pane>               */}
             </Tab.Content>
           </Col>
         </Row>
