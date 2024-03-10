@@ -57,14 +57,10 @@ const CalculatedColumns: React.FC<CalculatedColumnsProps> = ({ setFormData, form
     console.log('Form Data:', calculatedColumnsData);
 
     // You can pass the data to the parent component using setFormData if required
-    setFormData({
+    setFormData((prevData: any) => ({
       ...formData,
-      CalculatedColumns: {
-        [calculatedColumnsData.columnTitle]: calculatedColumnsData.columnTitle.value,
-        // Add more calculated columns as needed with their keys and values
-              
-      },
-    });
+      calculatedColumns: [...(prevData.calculatedColumns || []), calculatedColumnsData],
+    }));
     setCalculatedColumnsData(initialFormData);
 
   };

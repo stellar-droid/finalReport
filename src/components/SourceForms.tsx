@@ -48,13 +48,10 @@ const SourceForms: React.FC<SourceFormsProps> = ({ setFormData, formData }) => {
     console.log('Source Form Form Data:', sourceFormsData);
 
 
-    setFormData({
+    setFormData((prevData: any) => ({
       ...formData,
-      sourceFormsData:{
-        [sourceFormsData.selectedForm]:[]
-        [sourceFormsData]
-      }
-    });
+      SourceForms: [...(prevData.SourceForms || []), sourceFormsData],
+    }));
 
 
 
