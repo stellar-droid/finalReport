@@ -18,7 +18,7 @@ function SideNavbar() {
 
   const [activeTab, setActiveTab] = React.useState<string | null>("basicSettings");
   const [reportTitle, setReportTitle] = React.useState<string | undefined>("");
-  const [formData, setFormData] = React.useState<any>({});
+  const [formData, setFormData] = React.useState<any>([]);
 
 
 
@@ -78,7 +78,7 @@ function SideNavbar() {
     }
   };
 useEffect(() => {
-  console.log('Updated Form Data:', formData);
+  console.log(' Main Form Data:', formData);
   }, [formData]);
 
   return (
