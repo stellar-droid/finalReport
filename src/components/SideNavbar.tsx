@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import {Nav,Col,Tab,Row,Button} from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
@@ -11,9 +11,16 @@ import BasicSettings from './BasicSettings';
 import CalculatedColumns from './CalculatedColumns';
 import Aggregation from './Aggregation';
 import Columns from './Columns';
+
+
 function SideNavbar() {
+
+
   const [activeTab, setActiveTab] = React.useState<string | null>("basicSettings");
   const [reportTitle, setReportTitle] = React.useState<string | undefined>("");
+  const [formData, setFormData] = React.useState<any>({});
+
+
 
   const handleNext = () => {    
     switch (activeTab) {
@@ -70,7 +77,9 @@ function SideNavbar() {
         break;
     }
   };
-
+useEffect(() => {
+  console.log('Updated Form Data:', formData);
+  }, [formData]);
 
   return (
     <div className="App" style={{fontFamily:'TimesNewRoman'}}>
@@ -108,8 +117,8 @@ function SideNavbar() {
             <div className="footer sticky-bottom" style={{display:'flex',left:'0'}}>
         <Button variant="dark" href="#" className="btn " >Cancel</Button>
         <Button onClick={handlePrevious} className="btn btn-success" hidden={activeTab === "basicSettings"}>Previous</Button>        
-        <Button onClick={handleNext} className="btn btn-danger" hidden={activeTab === "controlsActions"}>Next</Button>
-        {activeTab === "controlsActions" && (
+        <Button onClick={handleNext} className="btn btn-danger" hidden={activeTab === "columns"}>Next</Button>
+        {activeTab === "columns" && (
           <Button type="submit" className="btn">Submit Form</Button>
         )}
       </div>
@@ -118,21 +127,21 @@ function SideNavbar() {
             <div style={{background: "red", width: "100%"}}></div>
             <Tab.Content className='tabcontent'>
               <Tab.Pane eventKey="basicSettings" className="tabContent">                  
-                <BasicSettings />
+                <BasicSettings setFormData={setFormData} formData={formData}/>
               </Tab.Pane>
 
               <Tab.Pane eventKey="sourceForms" className="tabContent">
-              <SourceForms/>
+              <SourceForms setFormData={setFormData} formData={formData} />
                
               </Tab.Pane>
 
               <Tab.Pane eventKey="calculatedForms" className="tabContent">                  
-              <CalculatedColumns/>
-                
+              <CalculatedColumns setFormData={setFormData} formData={formData} />
+
               </Tab.Pane>
 
               <Tab.Pane eventKey="aggregation" className="tabContent">
-              <Aggregation/>
+              <Aggregation />
               </Tab.Pane>
 
               <Tab.Pane eventKey="columns" className="tabContent">

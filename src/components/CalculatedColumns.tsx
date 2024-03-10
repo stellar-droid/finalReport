@@ -2,7 +2,15 @@ import React from 'react'
 import { Col, Container, Form, Row, InputGroup, OverlayTrigger, Tooltip, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import Select from "react-select";
 
-const CalculatedColumns = () => {
+
+
+interface CalculatedColumnsProps {
+  setFormData: any;
+  formData: any;
+}
+
+
+const CalculatedColumns: React.FC<CalculatedColumnsProps> = ({ setFormData, formData }) => {
 
   const customRenderTooltip = (content: string) => (props: any) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -16,11 +24,47 @@ const CalculatedColumns = () => {
     { value: 'vanilla', label: 'Vanilla' }
   ]
 
+  const initialFormData = {
+    columnTitle: '',
+    columnKey: '',
+    operator: '',
+  };
 
+  const [calculatedColumnsData, setCalculatedColumnsData] = React.useState<any>(initialFormData);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | { target:any }) => {
+    const { name, value, type, checked } = e.target;
+
+    // If the element is a Select input, handle it separately
+    if (type === 'select-one') {
+      setCalculatedColumnsData((prevData: any) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    } else {
+      // Update the state based on the form field
+      setCalculatedColumnsData((prevData: any) => ({
+        ...prevData,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+    };
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Use the collected data as needed
+    console.log('Form Data:', calculatedColumnsData);
+
+    // You can pass the data to the parent component using setFormData if required
+    setFormData(calculatedColumnsData);
+    setCalculatedColumnsData(initialFormData);
+
+  };
 
   return (
     <>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Container>
           <h1>Report Setup - Calculated Columns</h1>
           <p>Here you can add additional columns to the Report Grid that do not exist in the the Data Source Forms. These columns' value(s)
@@ -44,12 +88,12 @@ const CalculatedColumns = () => {
               <Col>
                 <Form.Group>
                   <Form.Label style={{ display: 'flex' }}>Column Title <span style={{ color: 'red' }}>*</span></Form.Label>
-                  <Form.Control required></Form.Control>
+                  <Form.Control name='columnTitle' type='text' value={calculatedColumnsData.columnTitle} onChange={handleInputChange} required></Form.Control>
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Label style={{ display: 'flex' }}>Column Key</Form.Label>
-                <Form.Control required/> 
+                <Form.Control name='columnKey' type='text' value={calculatedColumnsData.columnKey} onChange={handleInputChange} required />
               </Col>
 
 
@@ -65,7 +109,18 @@ const CalculatedColumns = () => {
                     <i className="bi bi-patch-question"></i>
                   </OverlayTrigger>
                   <span style={{ color: 'red' }}>*</span></Form.Label>
-                <Select options={options} isClearable required/>
+                <Select
+                   name='operator'
+                   options={options}
+                   isClearable
+                   onChange={(selectedOption) => handleInputChange({
+                     target: {
+                       name: 'operator',
+                       value: selectedOption ? selectedOption.value : null,
+                       type: 'select-one',
+                     },
+                   })}
+                   required />
               </Form.Group>
             </Col>
             <Button variant="success" type="submit" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
@@ -77,10 +132,10 @@ const CalculatedColumns = () => {
 
           </Container>
         </Container>
-            <Button style={{display:'flex',position:'relative',left:'10px',top:'10px'}}>
-            <i className="bi bi-plus-circle"></i> 
-              Add Column 
-            </Button>
+        <Button style={{ display: 'flex', position: 'relative', left: '10px', top: '10px' }}>
+          <i className="bi bi-plus-circle"></i>
+          Add Column
+        </Button>
 
       </Form>
     </>

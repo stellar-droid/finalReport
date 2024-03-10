@@ -4,23 +4,61 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 
-const SourceForms = () => {
-  const [isFormSubmitted, setFormSubmitted] = React.useState(false);
-  
+interface SourceFormsProps {
+  setFormData: any;
+  formData: any;
 
-  const customRenderTooltip = (content:string) => (props:any) => (
+}
+
+const SourceForms: React.FC<SourceFormsProps> = ({ setFormData, formData }) => {
+  const [isFormSubmitted, setFormSubmitted] = React.useState(false);
+  const initialFormData = {
+    selectedForm: 's',
+    baseform: '',
+    baseFormFields: '',
+    baseFormPath: '',
+    joiningForm: '',
+    joiningFormFields: '',
+    joiningFormPath: 'sss'
+  };
+  const [sourceFormsData, setSourceFormsData] = React.useState<any>(initialFormData)
+
+  const customRenderTooltip = (content: string) => (props: any) => (
     <Tooltip id="button-tooltip" {...props}>
       {content}
     </Tooltip>
   );
 
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+
+
+    setSourceFormsData((prevData: any) => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+
   const handleSubmit = (event: any) => {
-    // Your form submission logic goes here
-    // For demonstration purposes, we'll just prevent the default form submission
     event.preventDefault();
 
-    // Set the state to true to indicate that the form is submitted
+
+    console.log('Source Form Form Data:', sourceFormsData);
+
+
+    setFormData(() => ({ ...formData, ...sourceFormsData }));
+
+
+
+
+    setSourceFormsData(initialFormData);
     setFormSubmitted(true);
+
+    
+
+
   };
 
 
@@ -44,7 +82,7 @@ const SourceForms = () => {
           </OverlayTrigger>
           <span style={{ color: 'red' }}>*</span>
         </Form.Label>
-        <Form.Control required id="basic-url" aria-describedby="basic-addon3" className='mb-3' />
+        <Form.Control name='selectedForm' type='text' value={sourceFormsData.selectedForm} onChange={handleInputChange} required id="basic-url" aria-describedby="basic-addon3" className='mb-3' />
 
         <Form.Label htmlFor="basic-url" style={{ display: 'flex' }}>
           Form Connections :
@@ -88,31 +126,36 @@ const SourceForms = () => {
                 </OverlayTrigger>
                 <span style={{ color: 'red' }}>*</span>
               </Form.Label>
-              <Form.Control required placeholder="Base Form" style={{ marginLeft: '10px', width: '90%' }} />
-              <Form.Label className='baseformlabel2'>Connecting fields of base Form</Form.Label><Form.Control required style={{ marginLeft: '10px', width: '90%' }} placeholder="Connecting Fields" />
-              <Form.Label className='baseformlabel3' >Base form path to connecting value</Form.Label><Form.Control required style={{ marginLeft: '10px', width: '90%' }} placeholder="Path" />
+              <Form.Control
+
+                required
+                type="text"
+                value={sourceFormsData.baseform}
+                onChange={handleInputChange} name='baseform' placeholder="Base Form" style={{ marginLeft: '10px', width: '90%' }} />
+              <Form.Label className='baseformlabel2'>Connecting fields of base Form</Form.Label><Form.Control type='text' value={sourceFormsData.baseFormFields} onChange={handleInputChange} name='baseFormFields' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Connecting Fields" />
+              <Form.Label className='baseformlabel3' >Base form path to connecting value</Form.Label><Form.Control onChange={handleInputChange}type='text'value={sourceFormsData.baseFormPath} name='baseFormPath' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Path" />
             </Col>
             <Col style={{ width: '50%', fontSize: '20px', marginTop: '7px' }}>
-              <Form.Label className='joiningformlabel1' >Joining Form</Form.Label><Form.Control required style={{ marginLeft: '10px', width: '90%' }} placeholder="Joining Form " />
-              <Form.Label className='joiningformlabel2'>Connecting fields of Joining Form</Form.Label><Form.Control required style={{ marginLeft: '10px', width: '90%' }} placeholder="Connecting Field" />
-              <Form.Label className='joiningformlabel3'>Joining form path to connecting value</Form.Label><Form.Control required style={{ marginLeft: '10px', width: '90%' }} placeholder="Path" />
+              <Form.Label className='joiningformlabel1' >Joining Form</Form.Label><Form.Control onChange={handleInputChange} name='joiningForm' value={sourceFormsData.joiningForm} type='text' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Joining Form " />
+              <Form.Label className='joiningformlabel2'>Connecting fields of Joining Form</Form.Label><Form.Control onChange={handleInputChange}value={sourceFormsData.joiningFormFields} type='text' name='joiningFormFields' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Connecting Field" />
+              <Form.Label className='joiningformlabel3'>Joining form path to connecting value</Form.Label><Form.Control onChange={handleInputChange} value={sourceFormsData.joiningFormPath} type='text' name='joiningFormPath' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Path" />
             </Col>
           </Row>
           <Button variant="success" type="submit" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
             Save
           </Button>
-          <Button variant="danger" type="submit" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
+          <Button variant="danger" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
             Cancel
           </Button>
 
         </Container>
       </Container>
-      {isFormSubmitted && (
+      {/* {isFormSubmitted && (
         <div style={{ marginTop: '20px' }}>
           <p>Form Submitted Successfully!</p>
 
         </div>
-      )}
+      )} */}
     </Form>
   )
 }
