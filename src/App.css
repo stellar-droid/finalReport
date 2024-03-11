@@ -38,11 +38,19 @@
   }
 }
 
-.footer > :nth-child(1) {
+.footer{
+  display: flex;
+  /* left: 0; */
+  margin-left: 20px;
+  
+
+}
+
+.footer> :nth-child(1) {
   margin-right: 5px;
 }
 
-.footer > :nth-child(2) {
+.footer> :nth-child(2) {
   margin-right: 5px;
 }
 
@@ -54,9 +62,12 @@
 
 .innerform {
   border-radius: 5px;
+  background-color: white;
 }
 
 .navbar {
+  border: 2px solid black !important;
+  border-radius: 15px;
   margin-left: 50px;
   margin-top: 50px;
 }
@@ -88,12 +99,14 @@
   display: flex;
   font-family: "Times New Roman";
 }
+
 .joiningformlabel2 {
   position: relative;
   left: 12px;
   display: flex;
   font-family: "Times New Roman";
 }
+
 .joiningformlabel3 {
   position: relative;
   left: 12px;
@@ -102,13 +115,32 @@
 }
 
 
-.custom-nav-link.active {
-  background-color: #A1887F; /* Set your desired background color */
-  color: #fff; /* Set your desired text color */
-}
+/* .custom-nav-link {
+  border: 1px solid black;
+  background-color: red;  
+ 
+  color: #fff;
+ 
+  border: 2px solid lightblue;
+} */
 
 
-#formGridCheckbox{
+#formGridCheckbox {
   display: flex;
 }
 
+.nav-link{
+  border: 1px solid burlywood;
+}
+
+.tab {
+  border: 1px solid #0d6efd !important;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.tab.active {
+  background-color: #0d6efd;
+  color: white !important;
+}

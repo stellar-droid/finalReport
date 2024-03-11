@@ -2,19 +2,14 @@ import React, { useState } from 'react'
 import { Col, Container, Form, OverlayTrigger, Row, Tooltip, Table, Button } from 'react-bootstrap'
 import Select from "react-select";
 
-// interface Field {
-//     id: number;
-//     aggriField: any;
-//   }
+interface AggregationProps {
+  setFormData: any;
+  formData: any;
+}
 
-const Aggregation = () => {
+const Aggregation: React.FC<AggregationProps> = ({ setFormData, formData }) => {
 
-  const [inputFields, setInputFields] = useState([{ aggriField: "" }]);
-
-
-
-
-  const customRenderTooltip = (content:any) => (props:any) => (
+  const customRenderTooltip = (content: any) => (props: any) => (
     <Tooltip id="button-tooltip" {...props}>
       {content}
     </Tooltip>
@@ -22,31 +17,70 @@ const Aggregation = () => {
 
 
   const options = [
+    { value: 'email@email.com', label: 'Email' },
+    { value: 'name', label: 'Name' },
+    { value: 'address', label: 'Address' }
+  ]
+
+  const options1 = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'vanilla', label: 'Vanilla' }
   ]
+  const [inputFields, setInputFields] = useState([{ aggriField: "" }]);
+
+  const initialFormData = {
+    aggriField: "",
+    operator: "",
+    columnKey: '',
+    columnTitle: ''
+  }
+  const [aggregationData, setAggregationData] = React.useState<any>(initialFormData);
+
+
+
+
 
   const addInputField = () => {
     setInputFields([...inputFields, { aggriField: "" }]);
   };
 
-  const removeInputField = (index:number) => {
+  const removeInputField = (index: number) => {
     const updatedInputFields = inputFields.filter((_, i) => i !== index);
     setInputFields(updatedInputFields);
   };
 
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | { target: any }) => {
+    const { name, value, type, checked } = e.target;
+    console.log('Input Change:', { name, value, type });
+    if (type === 'select-one') {
+      setAggregationData((prevData: any) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    } else {
+      // Update the state based on the form field
+      setAggregationData((prevData: any) => ({
+        ...prevData,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+      console.log('FormData', aggregationData);
+
+      setFormData((prevData: any) => ({
+        ...prevData,
+        Aggregation: [aggregationData],
+      }));
+    };
+
+  }
 
   return (
     <>
       <Form>
         <Container>
           <h1>Report Setup - Aggregated Columns</h1>
-          <p> You can create an aggregated report that groups the selected Forms• submissions by one or several fields (e.g. department ID or employee 10), Using the
-            UI below, select the fields that will be used as criteria for the grouping. Then, add columns to your Reporting Grid that will calculated per group based on
-            the existing selected Forms fields or the Grid Calculated Extra Fields.</p>
-          <p>Please note that only Aggregated Columns will be available to display in the Reporting Grid for Aggregated Reprts,</p>
-
+          <p style={{ display: "flex", textAlign: "left", margin: "15px" }}>You can create an aggregated report that groups the selected Forms' submissions by one or several fields e.g. department ID or employee It. Using the Ul select the fields that will be used as criteria for the grouping. Then, add columns to your Reporting Grid that will be calculated per group based on the existing selected Forms fields or the Grid Calculated Extra Fields.</p>
           <Form.Group>
             <Form.Label style={{ display: 'flex', position: 'relative', left: '15px' }}>Fields to group by
               <OverlayTrigger
@@ -59,22 +93,23 @@ const Aggregation = () => {
             </Form.Label>
             <Container style={{ padding: '10px' }}>
 
-              {/* <Row justify-content-md-center>
 
-                                <Col xs={10} className='border'>
-                                    <Form.Control required />
-
-                                </Col>
-
-                                <Col className='border'>
-                                    <i className="bi bi-x-circle-fill btn " style={{ marginLeft: '10px', position: 'relative', top: '5px' }}></i>
-                                </Col>
-                            </Row> */}
               <Table bordered hover>
                 <thead>
                   {inputFields.map((field, index) => (
-                    <tr>
-                      <th colSpan={4}><Select name='aggriField' options={options} isClearable isSearchable required /></th>
+                    <tr >
+                      <th className='col-11'>
+                        <Select
+                           name='aggriField' options={options} isClearable isSearchable required
+                          onChange={(selectedOption) => handleInputChange({
+                            target: {
+                              name: 'aggriField',
+                              value: selectedOption ? selectedOption.value : null,
+                              type: 'select-one',
+                            },
+                          })}
+                          />
+                      </th>
                       {inputFields.length > 1 &&
                         <th>
                           <i className="bi bi-x-circle-fill btn" onClick={() => removeInputField(index)} style={{ marginLeft: '10px', position: 'relative', top: '5px' }}></i>
@@ -86,7 +121,6 @@ const Aggregation = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    {/* <td colSpan={5} ><Button variant="primary">Primary</Button></td> */}
                     <td colSpan={5}>
                       <Button style={{ display: 'flex', }} onClick={addInputField}>
                         <i className="bi bi-plus-circle"></i>
@@ -134,19 +168,33 @@ const Aggregation = () => {
               <Col>
                 <Form.Group>
                   <Form.Label style={{ display: 'flex' }}>Column Title <span style={{ color: 'red' }}>*</span></Form.Label>
-                  <Form.Control required></Form.Control>
+                  <Form.Control
+                    name='columnTitle'
+                    required
+                    type="text"
+                    placeholder="Column Title"
+                    value={aggregationData.columnTitle}
+                    onChange={handleInputChange}>
+                  </Form.Control>
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Label style={{ display: 'flex' }}>Column Key</Form.Label>
-                <Form.Control required />
+                <Form.Control
+                  name='columnKey'
+                  required
+                  type="text"
+                  placeholder="Column Key"
+                  value={aggregationData.columnKey}
+                  onChange={handleInputChange}
+                />
               </Col>
 
 
             </Row>
             <Col>
               <Form.Group>
-                <Form.Label style={{ display: 'flex' }}>Opertaor
+                <Form.Label style={{ display: 'flex' }}>Operator
                   <OverlayTrigger
                     placement="right"
                     delay={{ show: 250, hide: 400 }}
@@ -155,7 +203,19 @@ const Aggregation = () => {
                     <i className="bi bi-patch-question"></i>
                   </OverlayTrigger>
                   <span style={{ color: 'red' }}>*</span></Form.Label>
-                <Select options={options} isClearable required />
+                <Select
+                  name='operator'
+                  options={options1}
+                  isClearable
+                  onChange={(selectedOption) => handleInputChange({
+                    target: {
+                      name: 'operator',
+                      value: selectedOption ? selectedOption.value : null,
+                      type: 'select-one',
+                    },
+                  })}
+                  required
+                />
               </Form.Group>
             </Col>
             <Button variant="success" type="submit" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>

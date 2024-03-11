@@ -48,29 +48,39 @@ const CalculatedColumns: React.FC<CalculatedColumnsProps> = ({ setFormData, form
         [name]: type === 'checkbox' ? checked : value,
       }));
     };
-  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Use the collected data as needed
+    setFormData((prevData: any) => ({
+      ...prevData,
+      calculatedColumns: [ calculatedColumnsData],
+    }));
     console.log('Form Data:', calculatedColumnsData);
 
-    // You can pass the data to the parent component using setFormData if required
-    setFormData((prevData: any) => ({
-      ...formData,
-      calculatedColumns: [...(prevData.calculatedColumns || []), calculatedColumnsData],
-    }));
-    setCalculatedColumnsData(initialFormData);
 
   };
+
+
+
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   // Use the collected data as needed
+  //   console.log('Form Data:', calculatedColumnsData);
+
+  //   // You can pass the data to the parent component using setFormData if required
+  //   setFormData((prevData: any) => ({
+  //     ...formData,
+  //     calculatedColumns: [...(prevData.calculatedColumns || []), calculatedColumnsData],
+  //   }));
+  //   setCalculatedColumnsData(initialFormData);
+
+  // };
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form >
         <Container>
           <h1>Report Setup - Calculated Columns</h1>
-          <p>Here you can add additional columns to the Report Grid that do not exist in the the Data Source Forms. These columns' value(s)
+          <p className='text-start'>Here you can add additional columns to the Report Grid that do not exist in the the Data Source Forms. These columns' value(s)
             will be calculated based on the fields of the Data Source Forms.</p>
 
           <Container className='border  bg-light'>
@@ -126,10 +136,10 @@ const CalculatedColumns: React.FC<CalculatedColumnsProps> = ({ setFormData, form
                    required />
               </Form.Group>
             </Col>
-            <Button variant="success" type="submit" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
+            <Button variant="success"  style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
               Save
             </Button>
-            <Button variant="danger" type="submit" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
+            <Button variant="danger"  style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
               Cancel
             </Button>
 

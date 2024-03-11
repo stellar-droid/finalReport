@@ -8,10 +8,10 @@ interface BasicSettingsProps {
   formData: any;
 }
 
-const BasicSettings: React.FC<BasicSettingsProps> = ({ setFormData,formData }) => {
+const BasicSettings: React.FC<BasicSettingsProps> = ({ setFormData, formData }) => {
 
   const initialFormData = {
-    reportTitle: 's',
+    reportTitle: '',
     reportName: '',
     itemsPerPage: '',
     enableCache: false,
@@ -27,28 +27,38 @@ const BasicSettings: React.FC<BasicSettingsProps> = ({ setFormData,formData }) =
       ...prevData,
       [name]: type === 'checkbox' ? checked : value,
     }));
-  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Use the collected data as needed
+    // e.preventDefault();
+    setFormData((prevData: any) => ({
+     ...prevData,
+      BasicSettings: [basicSettingsData],
+    }));
     console.log('Form Data:', basicSettingsData);
 
-    // You can pass the data to the parent component using setFormData if required
-    setFormData(basicSettingsData);
-    setBasicSettingsData(initialFormData);
-    
   };
+
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   // Use the collected data as needed
+  //   console.log('Form Data:', basicSettingsData);
+
+  //   setFormData((prevData: any) => ({
+  //     ...formData,
+  //     BasicSettings: [...(prevData.BasicSettings || []), basicSettingsData],
+  //   }));
+  //   setBasicSettingsData(initialFormData);
+
+  // };
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form >
         <Container className='basicsettings'>
-          <h1>Report Setup - Basic Settings</h1>
+          <h2>Report Setup - Basic Settings</h2>
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridEmail">
-              <Form.Label style={{ display: 'flex' }}>Report Title </Form.Label>
+              <Form.Label style={{ display: 'flex' }}> Title </Form.Label>
               <Form.Control
                 name='reportTitle'
                 required
@@ -60,7 +70,7 @@ const BasicSettings: React.FC<BasicSettingsProps> = ({ setFormData,formData }) =
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridPassword">
-              <Form.Label style={{ display: 'flex' }}>Report Name</Form.Label>
+              <Form.Label style={{ display: 'flex' }}> Name</Form.Label>
               <Form.Control
                 name='reportName'
                 required
@@ -75,13 +85,19 @@ const BasicSettings: React.FC<BasicSettingsProps> = ({ setFormData,formData }) =
 
           <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label style={{ display: 'flex' }}>Items per page</Form.Label>
-            <Form.Control
-              name='itemsPerPage'
-              required
-              placeholder="10,20,30"
+            <Form.Select aria-label="Items per page"
+              name="itemsPerPage"
               value={basicSettingsData.itemsPerPage}
-              onChange={handleInputChange}
-            />
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handleInputChange({
+                  target: { name: e.target.name, value: e.target.value },
+                } as React.ChangeEvent<HTMLInputElement>)
+              }>
+              <option >Select a Option</option>
+              <option value={1}>One</option>
+              <option value={2}>Two</option>
+              <option value={3}>Three</option>
+            </Form.Select>
           </Form.Group>
 
           <Form.Group className="mb-3 " id="formGridCheckbox">
@@ -105,7 +121,7 @@ const BasicSettings: React.FC<BasicSettingsProps> = ({ setFormData,formData }) =
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" >
             Save
           </Button>
         </Container>

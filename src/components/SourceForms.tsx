@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, OverlayTrigger, Tooltip, Col, Row, Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Select from "react-select";
 
 
 interface SourceFormsProps {
@@ -13,13 +14,13 @@ interface SourceFormsProps {
 const SourceForms: React.FC<SourceFormsProps> = ({ setFormData, formData }) => {
   const [isFormSubmitted, setFormSubmitted] = React.useState(false);
   const initialFormData = {
-    selectedForm: 's',
+    selectedForm: '',
     baseform: '',
     baseFormFields: '',
     baseFormPath: '',
     joiningForm: '',
     joiningFormFields: '',
-    joiningFormPath: 'sss'
+    joiningFormPath: ''
   };
   const [sourceFormsData, setSourceFormsData] = React.useState<any>(initialFormData)
 
@@ -29,49 +30,75 @@ const SourceForms: React.FC<SourceFormsProps> = ({ setFormData, formData }) => {
     </Tooltip>
   );
 
+  const options = [
+    { value: 'form1', label: 'Form1' },
+    { value: 'form2', label: 'Form2' },
+    { value: 'form3', label: 'Form3' }
+  ]
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target || e;
 
 
-    setSourceFormsData((prevData: any) => ({
-      ...prevData,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
+    if (type === 'select-one' || type === 'select-multi') {
+      // Handle both single and multi-select
+      setSourceFormsData((prevData: any) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    } else {
+      // Update the state based on other form fields
+      setSourceFormsData((prevData: any) => ({
+        ...prevData,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+    };
 
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
 
-
-    console.log('Source Form Form Data:', sourceFormsData);
 
 
     setFormData((prevData: any) => ({
-      ...formData,
-      SourceForms: [...(prevData.SourceForms || []), sourceFormsData],
+      ...prevData,
+      SourceForms: [sourceFormsData],
     }));
 
-
-
-
-    setSourceFormsData(initialFormData);
-    setFormSubmitted(true);
-
-    
-
+    console.log('Source Form Form Data:', sourceFormsData);
 
   };
+
+
+  // const handleSubmit = (event: any) => {
+  //   event.preventDefault();
+
+
+  //   console.log('Source Form Form Data:', sourceFormsData);
+
+
+  //   setFormData((prevData: any) => ({
+  //     ...formData,
+  //     SourceForms: [...(prevData.SourceForms || []), sourceFormsData],
+  //   }));
+
+
+
+
+  //   setSourceFormsData(initialFormData);
+  //   setFormSubmitted(true);
+
+
+
+
+  // };
 
 
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Container className='border sourceforms'>
-        <h1>Report Setup - Source Forms</h1>
-        <p>A report can aggregate Submission Data submitted against one or more Forms. Many times. Reports aggregate data from multiple Forms
-          which allow a singular Report IJI to visualize connected data stemming from multiple Form Sources.</p>
+    <Form >
+      <Container className=''>
+        <h2>Report Setup - Source Forms</h2>
+        <p className=' text-start'>A report can aggregate Submission Data submitted against one or more Forms. Many times Reports aggregate data from multiple Forms which allow a singular Report IJI to visualize connected data stemming from multiple Form Sources.</p>
 
 
         <Form.Label htmlFor="basic-url" style={{ display: 'flex' }}>
@@ -85,7 +112,22 @@ const SourceForms: React.FC<SourceFormsProps> = ({ setFormData, formData }) => {
           </OverlayTrigger>
           <span style={{ color: 'red' }}>*</span>
         </Form.Label>
-        <Form.Control name='selectedForm' type='text' value={sourceFormsData.selectedForm} onChange={handleInputChange} required id="basic-url" aria-describedby="basic-addon3" className='mb-3' />
+        <Select
+          name='selectedForm'
+          className='mb-3'
+          options={options}
+          isClearable
+          isMulti
+          onChange={(selectedOptions) => handleInputChange({
+            target: {
+              name: 'selectedForm',
+              value: selectedOptions ? selectedOptions.map(option => option.value) : [],
+              type: selectedOptions && selectedOptions.length > 1 ? 'select-multi' : 'select-one',
+            },
+          })}
+          required
+        />
+        
 
         <Form.Label htmlFor="basic-url" style={{ display: 'flex' }}>
           Form Connections :
@@ -136,15 +178,15 @@ const SourceForms: React.FC<SourceFormsProps> = ({ setFormData, formData }) => {
                 value={sourceFormsData.baseform}
                 onChange={handleInputChange} name='baseform' placeholder="Base Form" style={{ marginLeft: '10px', width: '90%' }} />
               <Form.Label className='baseformlabel2'>Connecting fields of base Form</Form.Label><Form.Control type='text' value={sourceFormsData.baseFormFields} onChange={handleInputChange} name='baseFormFields' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Connecting Fields" />
-              <Form.Label className='baseformlabel3' >Base form path to connecting value</Form.Label><Form.Control onChange={handleInputChange}type='text'value={sourceFormsData.baseFormPath} name='baseFormPath' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Path" />
+              <Form.Label className='baseformlabel3' >Base form path to connecting value</Form.Label><Form.Control onChange={handleInputChange} type='text' value={sourceFormsData.baseFormPath} name='baseFormPath' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Path" />
             </Col>
             <Col style={{ width: '50%', fontSize: '20px', marginTop: '7px' }}>
               <Form.Label className='joiningformlabel1' >Joining Form</Form.Label><Form.Control onChange={handleInputChange} name='joiningForm' value={sourceFormsData.joiningForm} type='text' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Joining Form " />
-              <Form.Label className='joiningformlabel2'>Connecting fields of Joining Form</Form.Label><Form.Control onChange={handleInputChange}value={sourceFormsData.joiningFormFields} type='text' name='joiningFormFields' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Connecting Field" />
+              <Form.Label className='joiningformlabel2'>Connecting fields of Joining Form</Form.Label><Form.Control onChange={handleInputChange} value={sourceFormsData.joiningFormFields} type='text' name='joiningFormFields' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Connecting Field" />
               <Form.Label className='joiningformlabel3'>Joining form path to connecting value</Form.Label><Form.Control onChange={handleInputChange} value={sourceFormsData.joiningFormPath} type='text' name='joiningFormPath' required style={{ marginLeft: '10px', width: '90%' }} placeholder="Path" />
             </Col>
           </Row>
-          <Button variant="success" type="submit" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
+          <Button variant="success" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>
             Save
           </Button>
           <Button variant="danger" style={{ margin: '10px', fontFamily: 'TimesNewroman' }}>

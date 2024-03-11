@@ -18,7 +18,7 @@ function SideNavbar() {
 
   const [activeTab, setActiveTab] = React.useState<string | null>("basicSettings");
   const [reportTitle, setReportTitle] = React.useState<string | undefined>("");
-  const [formData, setFormData] = React.useState<any>([]);
+  const [formData, setFormData] = React.useState([]);
 
 
 
@@ -82,46 +82,39 @@ useEffect(() => {
   }, [formData]);
 
   return (
-    <div className="App" style={{fontFamily:'TimesNewRoman'}}>
-    <h1 className="text-center">Reports Module</h1>
-    <Container style={{}} className='border mb-2 navbar' >
+    <div className="App" style={{fontFamily:'arial'}}>
+    <h1 className="text-center" style={{fontWeight:'bold'}}>Reports Module</h1>
+    <Container style={{backgroundColor:'#f5f5f5'}} className=' mb-2 navbar' >
       <Tab.Container id="left-tabs-example" activeKey={activeTab || "basicSettings"} onSelect={(key: string | null) => setActiveTab(key)}>
         <Row className='w-100'>
           <Col sm={3}>
             <Nav variant="" className="flex-column sticky-top">
               <Nav.Item>
-                <Nav.Link eventKey="basicSettings" className="first-tab custom-nav-link">Basic Settings</Nav.Link>
+                <Nav.Link eventKey="basicSettings" className="first-tab tab">Basic Settings</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="sourceForms" className="tab custom-nav-link">Source Forms</Nav.Link>
+                <Nav.Link eventKey="sourceForms" className="tab  ">Source Forms</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="calculatedForms" className="tab custom-nav-link">Calculated Columns</Nav.Link>
+                <Nav.Link eventKey="calculatedForms" className="tab  ">Calculated Columns</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="aggregation" className="tab custom-nav-link">Aggregation</Nav.Link>
+                <Nav.Link eventKey="aggregation" className="tab  ">Aggregation</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="columns" className="tab custom-nav-link">Columns</Nav.Link>
+                <Nav.Link eventKey="columns" className="tab  ">Columns</Nav.Link>
               </Nav.Item>
               {/* <Nav.Item>
-                <Nav.Link eventKey="controlPanel" className="tab custom-nav-link">Control Panel</Nav.Link>
+                <Nav.Link eventKey="controlPanel" className="tab  ">Control Panel</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="filters" className="tab custom-nav-link">Filters</Nav.Link>
+                <Nav.Link eventKey="filters" className="tab  ">Filters</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="controlsActions" className="tab custom-nav-link">Contols Actions</Nav.Link>
+                <Nav.Link eventKey="controlsActions" className="tab  ">Contols Actions</Nav.Link>
               </Nav.Item> */}
             </Nav>
-            <div className="footer sticky-bottom" style={{display:'flex',left:'0'}}>
-        <Button variant="dark" href="#" className="btn " >Cancel</Button>
-        <Button onClick={handlePrevious} className="btn btn-success" hidden={activeTab === "basicSettings"}>Previous</Button>        
-        <Button onClick={handleNext} className="btn btn-danger" hidden={activeTab === "columns"}>Next</Button>
-        {activeTab === "columns" && (
-          <Button type="submit" className="btn">Submit Form</Button>
-        )}
-      </div>
+            
           </Col>
           <Col sm={9}>
             <div style={{background: "red", width: "100%"}}></div>
@@ -141,7 +134,7 @@ useEffect(() => {
               </Tab.Pane>
 
               <Tab.Pane eventKey="aggregation" className="tabContent">
-              <Aggregation />
+              <Aggregation setFormData={setFormData} formData={formData}/>
               </Tab.Pane>
 
               <Tab.Pane eventKey="columns" className="tabContent">
@@ -161,6 +154,14 @@ useEffect(() => {
                                 </Tab.Pane>               */}
             </Tab.Content>
           </Col>
+          <div className="footer " >
+        <Button variant="dark" href="#" className="btn " >Cancel</Button>
+        <Button onClick={handlePrevious} className="btn btn-success" hidden={activeTab === "basicSettings"}>Previous</Button>        
+        <Button onClick={handleNext} className="btn btn-primary" hidden={activeTab === "columns"}>Next</Button>
+        {activeTab === "columns" && (
+          <Button type="submit" className="btn">Submit Form</Button>
+        )}
+      </div>
         </Row>
       </Tab.Container>
       
